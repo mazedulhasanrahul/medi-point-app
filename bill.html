@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SurgiTech & Care BD Invoice</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0ea5e9">
+    <link rel="apple-touch-icon" href="img/icon-192.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#2e3192', // The deep blue from your logo/image
+                        brandLight: '#e6e7ff', // Light background for table header
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            color: #2e3192;
+        }
+        /* A4 Paper Settings */
+        
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        /* Watermark Styling */
+        
+        .watermark-container {
+            position: relative;
+            z-index: 10;
+        }
+        
+        .watermark-container::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 60%;
+            background-image: url('surgi.png');
+            /* Uses your uploaded logo */
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            opacity: 0.10;
+            /* Faint watermark */
+            z-index: -1;
+        }
+        /* Dotted Input Style */
+        
+        .dotted {
+            border-bottom: 2px dotted #2e3192;
+            outline: none;
+            background: transparent;
+            width: 100%;
+            color: #000;
+            font-weight: 600;
+        }
+        /* Print Specifics */
+        
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .page-sheet {
+                box-shadow: none !important;
+                margin: 0 !important;
+                width: 210mm !important;
+                height: 297mm !important;
+            }
+            input {
+                border: none !important;
+                border-bottom: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .dotted {
+                border-bottom: none !important;
+            }
+            /* Force footer to bottom */
+            #footer-section {
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                left: 0;
+            }
+        }
+        
+        .page-sheet {
+            width: 210mm;
+            min-height: 297mm;
+            background: white;
+            margin: 20px auto;
+            padding: 10mm 12mm;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="no-print fixed top-5 right-5 z-50">
+        <button onclick="window.print()" class="bg-brand text-white px-6 py-2 rounded-full font-bold shadow-lg hover:bg-blue-800 transition">
+            🖨️ Print Invoice
+        </button>
+    </div>
+
+    <div class="page-sheet flex flex-col justify-between">
+
+        <div>
+            <header class="relative mb-6">
+                <div class="flex justify-center mb-2">
+                    <div class="bg-brand text-white px-8 py-1 font-bold text-xl rounded-sm">বিল</div>
+                </div>
+
+                <div class="flex flex-col items-center relative">
+                    <div class="absolute left-0 top-0 w-28 md:w-32">
+                        <img src="surgi.png" alt="Logo" class="w-full">
+                    </div>
+
+                    <div class="text-center w-full pl-20 pr-4">
+                        <h1 class="text-4xl font-bold text-brand leading-none mb-1">সার্জিটেক এন্ড কেয়ার বিডি</h1>
+                        <h2 class="text-2xl font-bold text-brand uppercase tracking-wide">SurgiTech & Care BD</h2>
+                        <p class="text-sm font-semibold text-brand">(Medical Equipement System)</p>
+                        <p class="text-lg font-medium mt-1">শংকর, ধানমন্ডি, ঢাকা-1209</p>
+
+                        <div class="flex justify-center items-center gap-2 text-sm font-bold mt-1 flex-wrap">
+                            <span class="flex items-center gap-1">
+                                <span class="bg-pink-600 text-white px-1 text-xs rounded">bkash</span>
+                            <span class="bg-orange-500 text-white px-1 text-xs rounded">Nagad</span>
+                            <span>01409-352022,01319722155</span>
+                            </span>
+                        </div>
+                        <div class="text-xs mt-1 font-medium">
+                            E-mail: mdashikhasanbd1020@gmail.com, Web: www.surgitechcarebd.com
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="flex justify-between items-end mb-2">
+                <div class="flex w-1/2 items-end">
+                    <span class="font-bold whitespace-nowrap mr-2 text-brand">বিল নং :</span>
+                    <input type="text" value="2026001" class="dotted text-left">
+                </div>
+                <div class="flex w-1/3 items-end justify-end">
+                    <span class="font-bold whitespace-nowrap mr-2 text-brand">তারিখ :</span>
+                    <input type="text" id="date-box" class="dotted text-right">
+                </div>
+            </div>
+
+            <div class="mb-6 space-y-2">
+                <div class="flex items-end">
+                    <span class="font-bold whitespace-nowrap mr-2 text-brand w-12">নাম :</span>
+                    <input type="text" class="dotted">
+                </div>
+                <div class="flex items-end">
+                    <span class="font-bold whitespace-nowrap mr-2 text-brand w-12">ঠিকানা :</span>
+                    <input type="text" class="dotted">
+                </div>
+            </div>
+
+            <div class="watermark-container min-h-[400px]">
+                <table class="w-full border-2 border-brand text-sm md:text-base">
+                    <thead>
+                        <tr class="bg-brandLight text-brand text-center font-bold border-b-2 border-brand">
+                            <th class="border-r-2 border-brand p-2 w-[55%]">পণ্যের বিবরণ</th>
+                            <th class="border-r-2 border-brand p-2 w-[15%]">পরিমাণ</th>
+                            <th class="border-r-2 border-brand p-2 w-[15%]">দর</th>
+                            <th class="p-2 w-[15%]">টাকা</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoice-body">
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-end mt-0">
+                <div class="w-[30%] flex border-2 border-t-0 border-brand">
+                    <div class="w-1/2 p-1 font-bold text-center border-r-2 border-brand bg-brandLight">মোট</div>
+                    <div class="w-1/2 p-1 text-right font-bold pr-2"><span id="total-amount">0.00</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer-section" class="pb-0">
+            <div class="mb-12 px-10">
+                <div class="flex items-end">
+                    <span class="font-bold whitespace-nowrap mr-2">টাকা (কথায়) :</span>
+                    <span id="words-output" class="dotted italic text-black">শূন্য টাকা মাত্র</span>
+                </div>
+            </div>
+
+            <div class="flex justify-between px-4 mb-6 font-bold text-lg">
+                <div class="text-center">
+                    <div class="border-t-2 border-brand w-40 pt-1">ক্রেতার স্বাক্ষর</div>
+                </div>
+                <div class="text-center">
+                    <div class="border-t-2 border-brand w-40 pt-1">বিক্রেতার স্বাক্ষর</div>
+                </div>
+            </div>
+
+            <div class="bg-brand text-white text-center py-2 text-sm font-medium">
+                যদি মেরামতকৃত মেশিন দুই মাসের মধ্যে না নেওয়া হয় তবে কর্তৃপক্ষ সে মেশিনের জন্য দায়বদ্ধ থাকিবে না ।
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set Bangla Date
+        const dateObj = new Date();
+        const enDate = `${dateObj.getDate()}.${dateObj.getMonth()+1}.${dateObj.getFullYear()}`;
+        const bnDigits = {
+            '0': '০',
+            '1': '১',
+            '2': '২',
+            '3': '৩',
+            '4': '৪',
+            '5': '৫',
+            '6': '৬',
+            '7': '৭',
+            '8': '৮',
+            '9': '৯'
+        };
+        document.getElementById('date-box').value = enDate.replace(/\d/g, d => bnDigits[d]);
+
+        // Generate Rows
+        const tbody = document.getElementById('invoice-body');
+        for (let i = 0; i < 15; i++) {
+            const tr = document.createElement('tr');
+            tr.className = "h-8 border-b border-brand border-opacity-30";
+            tr.innerHTML = `
+                <td class="border-r-2 border-brand p-0 relative"><input class="w-full h-full bg-transparent px-2 outline-none" type="text"></td>
+                <td class="border-r-2 border-brand p-0 relative"><input class="w-full h-full bg-transparent text-center outline-none qty" type="number" oninput="calc()"></td>
+                <td class="border-r-2 border-brand p-0 relative"><input class="w-full h-full bg-transparent text-right px-2 outline-none rate" type="number" oninput="calc()"></td>
+                <td class="p-1 text-right relative"><span class="row-total mr-1"></span></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        // Calculation Logic
+        function calc() {
+            let grandTotal = 0;
+            document.querySelectorAll('tbody tr').forEach(row => {
+                const q = parseFloat(row.querySelector('.qty').value) || 0;
+                const r = parseFloat(row.querySelector('.rate').value) || 0;
+                const total = q * r;
+                row.querySelector('.row-total').innerText = total > 0 ? total.toFixed(2) : '';
+                grandTotal += total;
+            });
+            document.getElementById('total-amount').innerText = grandTotal.toFixed(2);
+
+            // Only convert if total > 0
+            if (grandTotal > 0) {
+                document.getElementById('words-output').innerText = convertToBangla(Math.round(grandTotal)) + " টাকা মাত্র";
+            } else {
+                document.getElementById('words-output').innerText = "শূন্য টাকা মাত্র";
+            }
+        }
+
+        // --- FIXED: Full Bangla Number to Words Logic ---
+        function convertToBangla(number) {
+            const words = ["", "এক", "দুই", "তিন", "চার", "পাঁচ", "ছয়", "সাত", "আট", "নয়", "দশ",
+                "এগারো", "বারো", "তেরো", "চৌদ্দ", "পনেরো", "ষোল", "সতেরো", "আঠারো", "ঊনিশ", "বিশ",
+                "একুশ", "বাইশ", "তেইশ", "চব্বিশ", "পঁচিশ", "ছাব্বিশ", "সাতাশ", "আঠাশ", "ঊনত্রিশ", "ত্রিশ",
+                "একত্রিশ", "বত্রিশ", "তেত্রিশ", "চৌত্রিশ", "পঁয়ত্রিশ", "ছত্রিশ", "সাইত্রিশ", "আটত্রিশ", "ঊনচল্লিশ", "চল্লিশ",
+                "একচল্লিশ", "বিয়াল্লিশ", "তেতাল্লিশ", "চুয়াল্লিশ", "পঁয়তাল্লিশ", "ছেচল্লিশ", "সাতচল্লিশ", "আটচল্লিশ", "ঊনপঞ্চাশ", "পঞ্চাশ",
+                "একান্ন", "বায়ান্ন", "তিপ্পান্ন", "চুয়ান্ন", "পঞ্চান্ন", "ছাপ্পান্ন", "সাতান্ন", "আটান্ন", "ঊনষাট", "ষাট",
+                "একষট্টি", "বাষট্টি", "তেষট্টি", "চৌষট্টি", "পঁয়ষট্টি", "ছেষট্টি", "সাতষট্টি", "আটষট্টি", "ঊনসত্তর", "সত্তর",
+                "একাত্তর", "বাহাত্তর", "তেহাত্তর", "চৌহাত্তর", "পঁচাত্তর", "ছিয়াত্তর", "সাতাত্তর", "আটাত্তর", "ঊনআশি", "আশি",
+                "একাশি", "বিরাশি", "তিরাশি", "চুরাশি", "পঁচাশি", "ছিয়াশি", "সাতাশি", "আটাশি", "ঊননব্বই", "নব্বই",
+                "একানব্বই", "বিরানব্বই", "তিরানব্বই", "চুরানব্বই", "পঁচানব্বই", "ছিয়ানব্বই", "সাতানব্বই", "আটানব্বই", "নিরানব্বই"
+            ];
+
+            function getWord(n) {
+                if (n < 100) return words[n];
+                return "";
+            }
+
+            let str = "";
+
+            // Crores (Koti)
+            if (Math.floor(number / 10000000) > 0) {
+                str += getWord(Math.floor(number / 10000000)) + " কোটি ";
+                number %= 10000000;
+            }
+            // Lakhs (Lokkho)
+            if (Math.floor(number / 100000) > 0) {
+                str += getWord(Math.floor(number / 100000)) + " লক্ষ ";
+                number %= 100000;
+            }
+            // Thousands (Hajar)
+            if (Math.floor(number / 1000) > 0) {
+                str += getWord(Math.floor(number / 1000)) + " হাজার ";
+                number %= 1000;
+            }
+            // Hundreds (Shot)
+            if (Math.floor(number / 100) > 0) {
+                str += getWord(Math.floor(number / 100)) + " শত ";
+                number %= 100;
+            }
+            // Remainder
+            if (number > 0) {
+                str += getWord(number);
+            }
+
+            return str.trim();
+        }
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => console.log('SW Registered!', reg.scope))
+                    .catch(err => console.log('SW Failed:', err));
+            });
+        }
+    </script>
+</body>
+
+</html>
